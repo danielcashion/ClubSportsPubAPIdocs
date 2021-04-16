@@ -1,5 +1,5 @@
 ---
-swagger: "3.0"
+swagger: "3.0.0"
 info:
   description: "This is a sample server Petstore server.  You can find out more about\
     \ Swagger at [https://www.theclubsportsorganization.com](https://www.theclubsportsorganization.com) or on [irc.freenode.net, #swagger](https://www.theclubsportsorganization.com/irc/).\
