@@ -1,7 +1,7 @@
 ---
 swagger: "2.0"
 info:
-  description: "This is a sample server Petstore server.  You can find out more about\
+  description: "This is a test example of the ClubSports API server.  You can find out more about\
     \ Swagger at [https://www.theclubsportsorganization.com](https://www.theclubsportsorganization.com) or on [irc.freenode.net, #swagger](https://www.theclubsportsorganization.com/irc/).\
     \  For this sample, you can use the api key `special-key` to test the authorization\
     \ filters."
