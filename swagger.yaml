@@ -1,36 +1,35 @@
 ---
-swagger: "2.0"
+swagger: "3.0"
 info:
   description: "This is a sample server Petstore server.  You can find out more about\
-    \ Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).\
+    \ Swagger at [https://www.theclubsportsorganization.com](https://www.theclubsportsorganization.com) or on [irc.freenode.net, #swagger](https://www.theclubsportsorganization.com/irc/).\
     \  For this sample, you can use the api key `special-key` to test the authorization\
     \ filters."
-  version: "1.0.5"
-  title: "Swagger Petstore"
-  termsOfService: "http://swagger.io/terms/"
+  version: "1.1.5"
+  title: "Clubsports Swagger Portal"
+  termsOfService: "https://www.theclubsportsorganization.com/terms/"
   contact:
-    email: "apiteam@swagger.io"
+    email: "support@clublacrosse.org"
   license:
     name: "Apache 2.0"
     url: "http://www.apache.org/licenses/LICENSE-2.0.html"
-host: "petstore.swagger.io"
+host: "api.clublacrosse.org"
 basePath: "/v2"
 tags:
 - name: "pet"
   description: "Everything about your Pets"
   externalDocs:
     description: "Find out more"
-    url: "http://swagger.io"
+    url: "https://www.theclubsportsorganization.com"
 - name: "store"
   description: "Access to Petstore orders"
 - name: "user"
   description: "Operations about user"
   externalDocs:
     description: "Find out more about our store"
-    url: "http://swagger.io"
+    url: "https://www.theclubsportsorganization.com"
 schemes:
 - "https"
-- "http"
 paths:
   /pet/{petId}/uploadImage:
     post:
@@ -714,5 +713,5 @@ definitions:
     xml:
       name: "User"
 externalDocs:
-  description: "Find out more about Swagger"
-  url: "http://swagger.io"
+  description: "Find out more about The Club Sports Organization"
+  url: "http://www.theclubsportsorganization.com"
