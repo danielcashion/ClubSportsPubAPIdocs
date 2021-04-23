@@ -1,58 +1,79 @@
-# Swagger API documentation For the Club Sports Public APIs
-[<img alt="The blog of Peter Evans: How to Host Swagger Documentation With Github Pages" title="View blog post" src="https://peterevans.dev/img/blog-published-badge.svg">](https://peterevans.dev/posts/how-to-host-swagger-docs-with-github-pages/)
+# Welcome to the Club Sports Organization Partners API repository
 
-This repository is a template for using the [Swagger UI](https://github.com/swagger-api/swagger-ui) to dynamically generate beautiful documentation for your API and host it for free with GitHub Pages.
+Version: 2.6.0
 
-The template will periodically auto-update the Swagger UI dependency and create a pull request. See the [GitHub Actions workflow here](.github/workflows/update-swagger.yml).
+## API Endpoints
 
-The example API specification used by this repository can be seen hosted at [https://peter-evans.github.io/swagger-github-pages](https://peter-evans.github.io/swagger-github-pages/).
+TESTING:
+- Private: https://api.tourneymaster.org/private/
 
-## Steps to use this template
+PROD:
+- Private: https://api.tourneymaster.org/privateprod/
 
-1. Click the `Use this template` button above to create a new repository from this template.
+### GET
 
-2. Go to the settings for your repository at `https://github.com/{github-username}/{repository-name}/settings` and enable GitHub Pages.
+Returns a list of records.
 
-    ![Headers](/screenshots/swagger-github-pages.png?raw=true)
-    
-3. Browse to the Swagger documentation at `https://{github-username}.github.io/{repository-name}/`.
+GET https://api.tourneymaster.org/{version}/{resource}?{querystring}
+
+Headers:
+
+- Content-Type: application/json
+- Authorization: Bearer {token from Cognito}
+
+Body:
+{empty}
+
+Version: v2
+
+Resource: games, divisions, pools, fields, teams, players, etc.
+
+Querystring: param1=value&param2=value (don’t forget to urlencode)
+
+**Wildcards**
+
+A "%" can be used as a wildcard to filter columns matching a pattern.
+
+**Pagination**
+
+Using `offset` and `limit` parameters will return not more than `limit` records beginning from `offset`.
+`limit` cannot exceed 1000.
+`limit` equals to 100 by default.
+
+Multiple values can be passed separated by comma to return records matching any of these values.
+
+**Examples:**
+
+- All records (limit 10000):
+  https://api.tourneymaster.org/private/<org_id>_fields
+
+- By primary key:
+  https://api.tourneymaster.org/private/<org_id>_pools?pool_id=dsfdsf43
+
+- By a combination of search fields:
+  https://api.tourneymaster.org/private/<org_id>_games?schedule_id=SCD001&event_id=ABC123
+
+- By any other field (not limited to foreign keys. E.g. email:
+  https://api.tourneymaster.org/private/<org_id>_events?start_date=2021-01-02
+
+- Using a wildcard to search for data that is LIKE something.
+
+  https://api.tourneymaster.org/private/<org_id>_events?start_date=2021% will return all dictionary of items in the year “2021”
+
+  https://api.tourneymaster.org/private/<org_id>_events	?event_name=%25Lax% will return any string that **_contains_** the string `lax`. Please note the `%25` encoding only on the front of the search string.
 
 
-## Steps to manually configure in your own repository
+- Multiple values for a parameter
 
-1. Download the latest stable release of the Swagger UI [here](https://github.com/swagger-api/swagger-ui/releases).
+https://api.tourneymaster.org/private/<org_id>_events?event_id=ABC123,ABC124,ABC125
 
-2. Extract the contents and copy the "dist" directory to the root of your repository.
+- Pagination
 
-3. Move the file "index.html" from the directory "dist" to the root of your repository.
-    ```
-    mv dist/index.html .
-    ```
-    
-4. Copy the YAML specification file for your API to the root of your repository.
+https://api.tourneymaster.org/private/<org_id>_events?event_id=ABC123&offset=5&limit=10 will return 10 events starting from the 5th
 
-5. Edit [index.html](index.html) and change the `url` property to reference your local YAML file. 
-    ```javascript
-        const ui = SwaggerUIBundle({
-            url: "swagger.yaml",
-        ...
-    ```
-    Then fix any references to files in the "dist" directory.
-    ```html
-    ...
-    <link rel="stylesheet" type="text/css" href="dist/swagger-ui.css" >
-    <link rel="icon" type="image/png" href="dist/favicon-32x32.png" sizes="32x32" />
-    <link rel="icon" type="image/png" href="dist/favicon-16x16.png" sizes="16x16" />    
-    ...
-    <script src="dist/swagger-ui-bundle.js"> </script>
-    <script src="dist/swagger-ui-standalone-preset.js"> </script>    
-    ...
-    ```
-    
-6. Go to the settings for your repository at `https://github.com/{github-username}/{repository-name}/settings` and enable GitHub Pages.
 
-    ![Headers](/screenshots/swagger-github-pages.png?raw=true)
-    
-7. Browse to the Swagger documentation at `https://{github-username}.github.io/{repository-name}/`.
+### Authentication
 
-   The example API specification used by this repository can be seen hosted at [https://peter-evans.github.io/swagger-github-pages](https://peter-evans.github.io/swagger-github-pages/).
+- API Client authenticates via AWS Cognito and sends in the Bearer JWT token in Authorization header with every call to the API
+- AWS API Gateway authenticates the token and forwards the request to ClubSports API
+- ClubSports API decodes the JWT token, reads the email address from the token and retrieves `member_id` with the same email from `members` table
