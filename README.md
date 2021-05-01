@@ -1,4 +1,4 @@
-# Welcome to the Club Sports Organization Partners API repository
+# Welcome to the Club Sports Organization Partners API Guide Repository
 
 Version: 2.6.0
 
@@ -26,7 +26,12 @@ Body:
 
 Version: v2
 
-Resource: games, divisions, pools, fields, teams, players, etc.
+Things you will need to replicate everything within our tournaments: 
+1. Event Details
+1. Teams
+1. Divisions & Pools
+1. Pool Play Games
+1. Bracket Games
 
 Querystring: param1=value&param2=value (don’t forget to urlencode)
 
@@ -43,37 +48,38 @@ Using `offset` and `limit` parameters will return not more than `limit` records 
 Multiple values can be passed separated by comma to return records matching any of these values.
 
 **Examples:**
+org_id sample = 'ABCD1234'
 
 - All records (limit 10000):
-  https://api.tourneymaster.org/private/<org_id>_fields
+  https://api.tourneymaster.org/private/ABCD1234_divisions_pools
 
 - By primary key:
-  https://api.tourneymaster.org/private/<org_id>_pools?pool_id=dsfdsf43
+  https://api.tourneymaster.org/private/ABCD1234_events?event_id=dsfdsf43
 
 - By a combination of search fields:
-  https://api.tourneymaster.org/private/<org_id>_games?schedule_id=SCD001&event_id=ABC123
+  https://api.tourneymaster.org/private/ABCD1234_pool_games?schedule_id=SCHD0001&event_id=XYZ12345
 
 - By any other field (not limited to foreign keys. E.g. email:
-  https://api.tourneymaster.org/private/<org_id>_events?start_date=2021-01-02
+  https://api.tourneymaster.org/private/ABCD1234_events?start_date=2021-01-02
 
 - Using a wildcard to search for data that is LIKE something.
 
-  https://api.tourneymaster.org/private/<org_id>_events?start_date=2021% will return all dictionary of items in the year “2021”
+  https://api.tourneymaster.org/private/ABCD1234_events?start_date=2021% will return all dictionary of items in the year “2021”
 
-  https://api.tourneymaster.org/private/<org_id>_events	?event_name=%25Lax% will return any string that **_contains_** the string `lax`. Please note the `%25` encoding only on the front of the search string.
+  https://api.tourneymaster.org/private/ABCD1234_events?event_name=%25Lax% will return any string that **_contains_** the string `lax`. Please note the `%25` encoding only on the front of the search string.
 
 
 - Multiple values for a parameter
 
-https://api.tourneymaster.org/private/<org_id>_events?event_id=ABC123,ABC124,ABC125
+https://api.tourneymaster.org/private/ABCD1234_events?event_id=ABC123,ABC124,ABC125
 
 - Pagination
 
-https://api.tourneymaster.org/private/<org_id>_events?event_id=ABC123&offset=5&limit=10 will return 10 events starting from the 5th
+https://api.tourneymaster.org/private/ABCD1234_events?event_id=ABC123&offset=5&limit=10 will return 10 events starting from the 5th
 
 
 ### Authentication
 
-- API Client authenticates via AWS Cognito and sends in the Bearer JWT token in Authorization header with every call to the API
-- AWS API Gateway authenticates the token and forwards the request to ClubSports API
-- ClubSports API decodes the JWT token, reads the email address from the token and retrieves `member_id` with the same email from `members` table
+- API Client authenticates via AWS Cognito and sends in the Bearer JWT **IDToken** in Authorization header with every call to the API
+- AWS API Gateway authenticates the IDToken and forwards the request to ClubSports API
+- ClubSports API decodes the JWT token, reads the email address from the token
