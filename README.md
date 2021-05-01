@@ -2,6 +2,14 @@
 
 Version: 2.6.0
 
+**What you will need and it's Description**
+**Description**|**Endpoint**|**Key**|**Searchable Fields**
+-----|-----|-----|-----
+Event Details|<org\_id>\_events|event\_id|event\_id event\_startdate event\_enddate sport\_id
+Teams|<org\_id>\_teams|team\_id|team\_id event\_id division\_id pool\_id
+Divisions & Pools|<org\_id>\_divisions|division\_id|event\_id division\_id pool\_id
+Pool Play Games|<org\_id>\_pool\_games| |schedule\_id event\_id
+Brackets Games|<org\_id>\_bracket\_games|bracket\_id|bracket\_id event\_id
 ## API Endpoints
 
 TESTING:
